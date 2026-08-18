@@ -21,38 +21,45 @@ export interface Stroke {
 
 // Ordered from the gestural core a painter would lay down first to the
 // over-specified detail that stiffens the same subject into a diagram.
+//
+// Riff: redrawn to the coiled, comma-shaped pose of a stock line-icon shrimp
+// (head top-left, body spiralling clockwise into a tucked tail) rather than
+// baishi's open S-curve — a second pose to check the phase boundaries against,
+// not a copy of the icon file itself, which stays out of this repo.
 export const STROKES: Stroke[] = [
   // -- the gestural core (1-6): what a few loaded brush strokes can carry --
-  // A shrimp curls into a single C: head high on the right, one continuous
-  // sweep down through the belly and back up into a hooked tail flick at the
-  // left. That's one coherent curl, not a wave — a wave is what reads as a
-  // scribble instead of a curled body.
+  // The coil: head at top-left, one continuous sweep down and right through
+  // the belly, curling back under itself into a tucked tail. A spiral, not
+  // the open C of the original — that's the pose this icon commits to.
   {
     id: "body-main",
     shape: {
       kind: "path",
-      d: "M 480,100 C 410,125 360,180 290,205 C 220,230 155,205 122,148 C 100,112 108,85 145,78",
+      d: "M 150,75 C 230,55 320,75 375,140 C 410,182 400,225 345,245 C 290,263 235,245 210,205 C 195,180 195,155 205,135",
     },
     width: 9,
   },
   {
     id: "head-rostrum",
-    shape: { kind: "path", d: "M 478,96 C 498,89 518,85 538,83" },
+    shape: { kind: "path", d: "M 148,72 C 138,64 128,58 118,54" },
     width: 5,
   },
   {
     id: "antenna-1",
-    shape: { kind: "path", d: "M 476,92 C 518,58 572,25 622,5" },
+    shape: {
+      kind: "path",
+      d: "M 145,70 C 110,40 60,35 25,55 C 5,66 10,85 35,80",
+    },
     width: 2.5,
   },
   {
     id: "antenna-2",
-    shape: { kind: "path", d: "M 476,106 C 512,138 552,175 588,210" },
+    shape: { kind: "path", d: "M 152,66 C 145,45 148,22 165,5" },
     width: 2.5,
   },
   {
     id: "eye",
-    shape: { kind: "circle", cx: 473, cy: 90, r: 4.5 },
+    shape: { kind: "circle", cx: 158, cy: 72, r: 4.5 },
     width: 0,
     fill: "currentColor",
   },
@@ -60,31 +67,31 @@ export const STROKES: Stroke[] = [
     id: "tail-fan-basic",
     shape: {
       kind: "path",
-      d: "M 145,78 L 170,58 M 142,82 L 162,72 M 139,87 L 152,100",
+      d: "M 205,135 L 175,120 M 208,140 L 185,150 M 212,148 L 195,168",
     },
     width: 3.5,
   },
   // -- the sweet spot (7-10): a little more life, still gesture --
   {
     id: "body-segment-1",
-    shape: { kind: "path", d: "M 385,145 Q 392,163 380,177" },
+    shape: { kind: "path", d: "M 278,88 Q 288,102 278,114" },
     width: 3,
   },
   {
     id: "body-segment-2",
-    shape: { kind: "path", d: "M 300,195 Q 307,212 295,225" },
+    shape: { kind: "path", d: "M 345,155 Q 358,164 352,180" },
     width: 3,
   },
   {
     id: "body-segment-3",
-    shape: { kind: "path", d: "M 215,213 Q 222,230 210,242" },
+    shape: { kind: "path", d: "M 322,222 Q 332,232 322,244" },
     width: 3,
   },
   {
     id: "leg-cluster-impression",
     shape: {
       kind: "path",
-      d: "M 270,200 L 260,220 M 245,208 L 236,227 M 220,213 L 211,231 M 195,213 L 187,231 M 170,205 L 163,222",
+      d: "M 260,195 L 248,214 M 280,208 L 270,228 M 300,218 L 292,238 M 240,182 L 226,199",
     },
     width: 2.5,
   },
@@ -93,7 +100,7 @@ export const STROKES: Stroke[] = [
     id: "antenna-detail-ticks",
     shape: {
       kind: "path",
-      d: "M 520,60 L 528,50 M 548,42 L 556,32 M 578,22 L 586,13",
+      d: "M 90,42 L 82,32 M 60,42 L 54,30 M 32,62 L 22,58",
     },
     width: 1.5,
   },
@@ -101,7 +108,7 @@ export const STROKES: Stroke[] = [
     id: "tail-fan-full",
     shape: {
       kind: "path",
-      d: "M 146,76 L 178,50 M 144,79 L 170,60 M 142,82 L 160,70 M 140,85 L 150,92 M 138,89 L 142,108 M 136,93 L 136,115",
+      d: "M 205,135 L 170,116 M 207,138 L 178,128 M 210,143 L 183,144 M 212,148 L 191,158 M 213,153 L 197,172 M 213,159 L 202,183",
     },
     width: 2.5,
   },
@@ -109,7 +116,7 @@ export const STROKES: Stroke[] = [
     id: "leg-cluster-full",
     shape: {
       kind: "path",
-      d: "M 350,175 L 342,196 M 325,188 L 317,208 M 300,198 L 292,217 M 275,205 L 267,224 M 250,210 L 242,228 M 225,213 L 217,231 M 200,212 L 193,229 M 175,206 L 169,222 M 150,195 L 145,210",
+      d: "M 226,175 L 213,192 M 240,182 L 226,199 M 254,190 L 242,208 M 268,199 L 258,218 M 282,209 L 273,229 M 296,220 L 288,239 M 308,231 L 302,249",
     },
     width: 2,
   },
@@ -117,7 +124,7 @@ export const STROKES: Stroke[] = [
     id: "body-outline",
     shape: {
       kind: "path",
-      d: "M 480,100 C 410,125 360,180 290,205 C 220,230 155,205 122,148 C 100,112 108,85 145,78",
+      d: "M 150,75 C 230,55 320,75 375,140 C 410,182 400,225 345,245 C 290,263 235,245 210,205 C 195,180 195,155 205,135",
     },
     width: 1.5,
     offset: { dx: 6, dy: 7 },
@@ -126,13 +133,13 @@ export const STROKES: Stroke[] = [
     id: "shading-hatch",
     shape: {
       kind: "path",
-      d: "M 250,190 L 260,200 M 270,183 L 280,193 M 290,175 L 300,185 M 310,165 L 320,175 M 330,155 L 340,165 M 350,145 L 360,155",
+      d: "M 300,110 L 312,118 M 320,125 L 332,133 M 340,143 L 352,150 M 350,165 L 362,171 M 345,190 L 356,197 M 330,212 L 340,220",
     },
     width: 1.2,
   },
   {
     id: "eye-detail",
-    shape: { kind: "circle", cx: 474.5, cy: 88.5, r: 1.5 },
+    shape: { kind: "circle", cx: 159.5, cy: 70.5, r: 1.5 },
     width: 0,
     fill: "#f5efe1",
   },
