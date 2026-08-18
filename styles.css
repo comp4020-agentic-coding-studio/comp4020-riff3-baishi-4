@@ -258,3 +258,31 @@ blockquote p:last-child {
     flex: 1 1 100%;
   }
 }
+
+/* --- the photograph: total likeness, for comparison --- */
+.photograph {
+  border-top: 1px solid rgb(74 66 56 / 25%);
+  margin: 2rem 0 0;
+  padding-top: 1.5rem;
+}
+
+.photograph img {
+  border-radius: 2px;
+  display: block;
+  height: auto;
+  max-width: 100%;
+  width: 100%;
+}
+
+.photograph figcaption {
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  margin-top: 0.75rem;
+}
+
+.photograph .credit {
+  display: block;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  opacity: 0.85;
+}
