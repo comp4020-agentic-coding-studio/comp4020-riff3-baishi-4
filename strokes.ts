@@ -163,3 +163,52 @@ export function labelFor(phase: Phase): string {
       return "太似 — every leg accounted for, and the life has gone out of it.";
   }
 }
+
+// --- the riff: the visitor's own two boundaries -------------------------
+// The page above asserts thresholds (UNLIKE_MAX, SWEET_SPOT_MAX) and then
+// claims nobody told you where they were. Both can't be true. So the visitor
+// marks their own two boundaries first, and only then does the page show
+// what it thinks — as a second opinion, not an answer key.
+
+export type Boundary = "became" | "stiffened";
+
+export interface Marks {
+  // Stroke count at which the visitor said "that's a shrimp now".
+  became: number | null;
+  // Stroke count at which they said "the life has gone out of it".
+  stiffened: number | null;
+}
+
+export const NO_MARKS: Marks = { became: null, stiffened: null };
+
+// What this page would have claimed if it had gone first: the first stroke
+// that isn't "unlike", and the last stroke that isn't yet "too like".
+export const PAGE_MARKS: Record<Boundary, number> = {
+  became: UNLIKE_MAX + 1,
+  stiffened: SWEET_SPOT_MAX,
+};
+
+export function bothMarked(marks: Marks): boolean {
+  return marks.became !== null && marks.stiffened !== null;
+}
+
+// Visitor minus page: negative means they saw it earlier than the page does.
+export function deltaFor(boundary: Boundary, marks: Marks): number | null {
+  const mark = marks[boundary];
+  return mark === null ? null : mark - PAGE_MARKS[boundary];
+}
+
+export function describeDelta(boundary: Boundary, delta: number): string {
+  const noun = boundary === "became" ? "recognition" : "the stiffening";
+  if (delta === 0) return `You and the page put ${noun} at the same stroke.`;
+  const strokes = Math.abs(delta) === 1 ? "1 stroke" : `${Math.abs(delta)} strokes`;
+  return delta < 0
+    ? `You saw ${noun} ${strokes} earlier than the page claims.`
+    : `You saw ${noun} ${strokes} later than the page claims.`;
+}
+
+// The one case the page's own scheme can't represent: a visitor for whom the
+// sweet spot never opens, because it stiffened before it ever read as a shrimp.
+export function hasSweetSpot(marks: Marks): boolean {
+  return bothMarked(marks) && (marks.stiffened as number) > (marks.became as number);
+}

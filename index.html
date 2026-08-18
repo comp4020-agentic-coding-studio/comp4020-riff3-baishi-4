@@ -52,14 +52,58 @@
             <div class="readout">
               <span id="stroke-count" data-testid="stroke-count">0 / 16</span>
             </div>
-            <p
-              id="phase-label"
-              class="sr-only"
-              data-testid="phase-label"
-              aria-live="polite"
-            ></p>
+            <p id="marks-readout" data-testid="marks-readout" aria-live="polite">
+              Nothing marked yet.
+            </p>
           </figcaption>
         </figure>
+        <div id="marking" class="marking">
+          <p class="marking-ask">
+            Drag until it happens, then say so. The page has an opinion too,
+            but it isn't showing it until you've committed to yours.
+          </p>
+          <div class="marking-buttons">
+            <button type="button" id="mark-became" data-testid="mark-became">
+              It's a shrimp now
+            </button>
+            <button type="button" id="mark-stiffened" data-testid="mark-stiffened">
+              It's gone stiff
+            </button>
+          </div>
+          <button type="button" id="mark-reset" class="reset" data-testid="mark-reset" hidden>
+            Start over
+          </button>
+        </div>
+        <section
+          id="verdict"
+          class="verdict"
+          data-testid="verdict"
+          aria-labelledby="verdict-heading"
+          aria-live="polite"
+          hidden
+        >
+          <h3 id="verdict-heading">Your two boundaries, and the page's</h3>
+          <table class="verdict-table">
+            <thead>
+              <tr><th scope="col">Boundary</th><th scope="col">You</th><th scope="col">This page</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Became a shrimp</th>
+                <td data-testid="you-became"></td>
+                <td data-testid="page-became"></td>
+              </tr>
+              <tr>
+                <th scope="row">Went stiff</th>
+                <td data-testid="you-stiffened"></td>
+                <td data-testid="page-stiffened"></td>
+              </tr>
+            </tbody>
+          </table>
+          <p data-testid="verdict-became"></p>
+          <p data-testid="verdict-stiffened"></p>
+          <p class="verdict-close" data-testid="verdict-close"></p>
+        </section>
         <noscript>
           <p>
             This page's one interaction needs JavaScript. Without it, imagine
@@ -88,21 +132,26 @@
         </blockquote>
         <p>
           It's usually read as advice about painting. It's really a claim
-          about where recognition itself lives. Above, strokes one through
-          three commit to nothing &mdash; a curved line, a point, a dot could
-          be almost anything. Somewhere around stroke four or five, without
-          any single stroke doing something different in kind, it becomes
-          unmistakably a shrimp. Keep adding strokes past ten or so &mdash;
-          outlining the silhouette, drawing every leg instead of implying a
-          cluster of them, hatching in shading &mdash; and it doesn't get
-          <em>more</em> like a shrimp. It gets stiffer. The gesture that made
-          it alive gets buried under the detail that makes it correct.
+          about where recognition itself lives. Somewhere in that slider a
+          curved line and a dot stop being marks and become a shrimp, without
+          any single stroke doing something different in kind from the one
+          before it. Keep going &mdash; outlining the silhouette, drawing
+          every leg instead of implying a cluster of them, hatching in shading
+          &mdash; and it doesn't get <em>more</em> like a shrimp. It gets
+          stiffer. The gesture that made it alive gets buried under the detail
+          that makes it correct.
         </p>
         <p>
-          Nobody told you which stroke count was which as you dragged. That's
-          the point: the middle zone isn't a fact you can be handed, it's a
-          judgement you make by looking, and it moves depending on what you're
-          drawing.
+          Where exactly? This page has a number for each boundary, hard-coded
+          by whoever built it. It won't show you either one until you've
+          marked your own, because a threshold you've been handed isn't a
+          judgement you've made &mdash; and the page's numbers are one
+          reading, not the answer.
+        </p>
+        <p>
+          The middle zone isn't a fact you can be handed, it's a judgement
+          you make by looking, and it moves depending on what's being drawn
+          and who's looking at it. That's why this page makes you go first.
         </p>
       </section>
 
