@@ -28,14 +28,31 @@ export interface Stroke {
 // repo. Qi Baishi's rule was written about shrimp; this checks whether it
 // still holds once the subject changes.
 export const STROKES: Stroke[] = [
-  // -- the gestural core (1-4): what a few loaded brush strokes can carry --
-  // One continuous outline: tail fork, up over the dorsal hump, down the
-  // snout to the mouth, back along the belly to the tail's lower point.
+  // -- the gestural core (1-6): what a few loaded brush strokes can carry --
+  // The outline in three passes rather than one unbroken line, so the shape
+  // arrives the way a brush actually lays it down: tail and back first,
+  // then the snout and mouth, then the belly closing the loop.
   {
-    id: "body-main",
+    id: "body-outline-tail-back",
     shape: {
       kind: "path",
-      d: "M 75,150 L 30,105 L 95,140 C 130,80 190,40 230,35 C 265,30 275,70 280,100 C 320,115 345,130 365,150 C 345,168 320,180 330,195 C 300,215 240,222 200,215 C 185,230 182,236 180,235 C 140,220 105,195 95,165 L 35,195 Z",
+      d: "M 75,150 L 30,105 L 95,140 C 130,80 190,40 230,35 C 265,30 275,70 280,100",
+    },
+    width: 8,
+  },
+  {
+    id: "body-outline-snout",
+    shape: {
+      kind: "path",
+      d: "M 280,100 C 320,115 345,130 365,150 C 345,168 320,180 330,195",
+    },
+    width: 8,
+  },
+  {
+    id: "body-outline-belly",
+    shape: {
+      kind: "path",
+      d: "M 330,195 C 300,215 240,222 200,215 C 185,230 182,236 180,235 C 140,220 105,195 95,165 L 35,195 L 75,150",
     },
     width: 8,
   },
@@ -55,7 +72,7 @@ export const STROKES: Stroke[] = [
     shape: { kind: "path", d: "M 300,150 C 292,172 278,184 262,180" },
     width: 3,
   },
-  // -- the sweet spot (5-15): a little more life, still gesture --
+  // -- the sweet spot (7-17): a little more life, still gesture --
   {
     id: "gill-line",
     shape: { kind: "path", d: "M 300,110 Q 310,150 300,190" },
@@ -114,7 +131,7 @@ export const STROKES: Stroke[] = [
     },
     width: 1.2,
   },
-  // -- over-elaboration (16-22): every fin ray and scale accounted for --
+  // -- over-elaboration (18-24): every fin ray and scale accounted for --
   {
     id: "scale-hatch-row1",
     shape: {
@@ -169,10 +186,10 @@ export const STROKES: Stroke[] = [
 export type Phase = "unlike" | "sweet-spot" | "too-like";
 
 // Below this many strokes, nothing on the canvas commits to being a shrimp.
-export const UNLIKE_MAX = 4;
+export const UNLIKE_MAX = 6;
 // Through this many, it reads as a shrimp without over-explaining itself.
 // Above it, every part has been individually accounted for.
-export const SWEET_SPOT_MAX = 15;
+export const SWEET_SPOT_MAX = 17;
 
 export function phaseFor(count: number, total: number = STROKES.length): Phase {
   const clamped = Math.max(0, Math.min(count, total));
