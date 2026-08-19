@@ -22,6 +22,8 @@ const becameButton = document.querySelector<HTMLButtonElement>("#mark-became");
 const stiffenedButton = document.querySelector<HTMLButtonElement>("#mark-stiffened");
 const resetButton = document.querySelector<HTMLButtonElement>("#mark-reset");
 const clearDrawingButton = document.querySelector<HTMLButtonElement>("#clear-drawing");
+const traceCanvas = document.querySelector<SVGSVGElement>("#trace-canvas");
+const clearTraceButton = document.querySelector<HTMLButtonElement>("#clear-trace");
 
 const cell = (name: string) =>
   document.querySelector<HTMLElement>(`[data-testid="${name}"]`);
@@ -127,61 +129,103 @@ if (
   render(Number(slider.value));
   marksReadout.textContent = describeMarks();
 
-  // Freehand painting, layered over the slider-driven strokes. Points are
-  // mapped from screen space into the SVG's own viewBox coordinates via its
-  // CTM, so drawing stays under the pointer regardless of how the canvas is
-  // scaled on the page.
-  const toPoint = (event: PointerEvent): { x: number; y: number } | null => {
-    const ctm = canvas.getScreenCTM();
-    if (!ctm) return null;
-    const point = canvas.createSVGPoint();
-    point.x = event.clientX;
-    point.y = event.clientY;
-    const local = point.matrixTransform(ctm.inverse());
-    return { x: local.x, y: local.y };
+  // Freehand painting, attachable to any SVG canvas. Points are mapped from
+  // screen space into the SVG's own viewBox coordinates via its CTM, so
+  // drawing stays under the pointer regardless of how the canvas is scaled
+  // on the page.
+  const attachPainting = (svg: SVGSVGElement, clearButton: HTMLButtonElement | null) => {
+    const toPoint = (event: PointerEvent): { x: number; y: number } | null => {
+      const ctm = svg.getScreenCTM();
+      if (!ctm) return null;
+      const point = svg.createSVGPoint();
+      point.x = event.clientX;
+      point.y = event.clientY;
+      const local = point.matrixTransform(ctm.inverse());
+      return { x: local.x, y: local.y };
+    };
+
+    let userStrokeCount = 0;
+    let activePath: SVGPathElement | null = null;
+
+    const updateClearButton = () => {
+      if (clearButton) clearButton.hidden = userStrokeCount === 0;
+    };
+
+    svg.addEventListener("pointerdown", (event) => {
+      const p = toPoint(event);
+      if (!p) return;
+      try {
+        svg.setPointerCapture(event.pointerId);
+      } catch {
+        // Some environments report a pointer id that isn't capturable; the
+        // draw still works via the move/up listeners either way.
+      }
+      activePath = document.createElementNS(SVG_NS, "path");
+      activePath.setAttribute("d", `M ${p.x},${p.y}`);
+      activePath.setAttribute("fill", "none");
+      activePath.setAttribute("stroke", "currentColor");
+      activePath.setAttribute("stroke-width", "3");
+      activePath.setAttribute("stroke-linecap", "round");
+      activePath.setAttribute("stroke-linejoin", "round");
+      activePath.classList.add("user-ink");
+      svg.appendChild(activePath);
+      userStrokeCount += 1;
+      updateClearButton();
+    });
+
+    svg.addEventListener("pointermove", (event) => {
+      if (!activePath) return;
+      const p = toPoint(event);
+      if (!p) return;
+      activePath.setAttribute("d", `${activePath.getAttribute("d")} L ${p.x},${p.y}`);
+    });
+
+    const endStroke = () => {
+      activePath = null;
+    };
+    svg.addEventListener("pointerup", endStroke);
+    svg.addEventListener("pointercancel", endStroke);
+    svg.addEventListener("pointerleave", endStroke);
+
+    clearButton?.addEventListener("click", () => {
+      svg.querySelectorAll(".user-ink").forEach((path) => path.remove());
+      userStrokeCount = 0;
+      updateClearButton();
+    });
   };
 
-  let userStrokeCount = 0;
-  let activePath: SVGPathElement | null = null;
+  attachPainting(canvas, clearDrawingButton);
 
-  const updateClearButton = () => {
-    if (clearDrawingButton) clearDrawingButton.hidden = userStrokeCount === 0;
-  };
-
-  canvas.addEventListener("pointerdown", (event) => {
-    const p = toPoint(event);
-    if (!p) return;
-    canvas.setPointerCapture(event.pointerId);
-    activePath = document.createElementNS(SVG_NS, "path");
-    activePath.setAttribute("d", `M ${p.x},${p.y}`);
-    activePath.setAttribute("fill", "none");
-    activePath.setAttribute("stroke", "currentColor");
-    activePath.setAttribute("stroke-width", "3");
-    activePath.setAttribute("stroke-linecap", "round");
-    activePath.setAttribute("stroke-linejoin", "round");
-    activePath.classList.add("user-ink");
-    canvas.appendChild(activePath);
-    userStrokeCount += 1;
-    updateClearButton();
-  });
-
-  canvas.addEventListener("pointermove", (event) => {
-    if (!activePath) return;
-    const p = toPoint(event);
-    if (!p) return;
-    activePath.setAttribute("d", `${activePath.getAttribute("d")} L ${p.x},${p.y}`);
-  });
-
-  const endStroke = () => {
-    activePath = null;
-  };
-  canvas.addEventListener("pointerup", endStroke);
-  canvas.addEventListener("pointercancel", endStroke);
-  canvas.addEventListener("pointerleave", endStroke);
-
-  clearDrawingButton?.addEventListener("click", () => {
-    canvas.querySelectorAll(".user-ink").forEach((path) => path.remove());
-    userStrokeCount = 0;
-    updateClearButton();
-  });
+  // The trace canvas: every stroke drawn at once, faint, as a guide to draw
+  // over — the same instructions the slider reveals gradually above, given
+  // all at once here because tracing is a different exercise from watching
+  // recognition arrive.
+  if (traceCanvas) {
+    STROKES.forEach((stroke) => {
+      const el = document.createElementNS(
+        SVG_NS,
+        stroke.shape.kind === "circle" ? "circle" : "path",
+      );
+      if (stroke.shape.kind === "circle") {
+        el.setAttribute("cx", String(stroke.shape.cx));
+        el.setAttribute("cy", String(stroke.shape.cy));
+        el.setAttribute("r", String(stroke.shape.r));
+        el.setAttribute("fill", stroke.fill ?? "currentColor");
+      } else {
+        el.setAttribute("d", stroke.shape.d);
+        el.setAttribute("fill", "none");
+        el.setAttribute("stroke", "currentColor");
+        el.setAttribute("stroke-width", String(stroke.width));
+        el.setAttribute("stroke-linecap", "round");
+        el.setAttribute("stroke-linejoin", "round");
+      }
+      if (stroke.offset) {
+        el.setAttribute("transform", `translate(${stroke.offset.dx}, ${stroke.offset.dy})`);
+      }
+      el.classList.add("trace-guide");
+      el.style.pointerEvents = "none";
+      traceCanvas.appendChild(el);
+    });
+    attachPainting(traceCanvas, clearTraceButton);
+  }
 }

@@ -77,7 +77,8 @@ figure {
   padding: 0;
 }
 
-#shrimp-canvas {
+#shrimp-canvas,
+#trace-canvas {
   display: block;
   width: 100%;
   height: auto;
@@ -87,6 +88,14 @@ figure {
   color: var(--ink);
   cursor: crosshair;
   touch-action: none;
+}
+
+#trace-heading {
+  margin: 2rem 0 0;
+}
+
+.trace-guide {
+  opacity: 0.22;
 }
 
 .paint-hint {
