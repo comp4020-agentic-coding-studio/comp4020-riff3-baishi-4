@@ -22,169 +22,145 @@ export interface Stroke {
 // Ordered from the gestural core a painter would lay down first to the
 // over-specified detail that stiffens the same subject into a diagram.
 //
-// Riff: redrawn to the coiled, comma-shaped pose of a stock line-icon shrimp
-// (head top-left, body spiralling clockwise into a tucked tail) rather than
-// baishi's open S-curve — a second pose to check the phase boundaries against,
-// not a copy of the icon file itself, which stays out of this repo.
+// Riff: redrawn again, this time as a fish rather than a shrimp — pose taken
+// from a plain line icon (forked tail left, dorsal ridge, pointed snout right,
+// small eye), not a copy of the icon file itself, which stays out of this
+// repo. Qi Baishi's rule was written about shrimp; this checks whether it
+// still holds once the subject changes.
 export const STROKES: Stroke[] = [
-  // -- the gestural core (1-6): what a few loaded brush strokes can carry --
-  // The coil: head at top-left, one continuous sweep down and right through
-  // the belly, curling back under itself into a tucked tail. A spiral, not
-  // the open C of the original — that's the pose this icon commits to.
+  // -- the gestural core (1-4): what a few loaded brush strokes can carry --
+  // One continuous outline: tail fork, up over the dorsal hump, down the
+  // snout to the mouth, back along the belly to the tail's lower point.
   {
     id: "body-main",
     shape: {
       kind: "path",
-      d: "M 150,75 C 230,55 320,75 375,140 C 410,182 400,225 345,245 C 290,263 235,245 210,205 C 195,180 195,155 205,135",
+      d: "M 75,150 L 30,105 L 95,140 C 130,80 190,40 230,35 C 265,30 275,70 280,100 C 320,115 345,130 365,150 C 345,168 320,180 330,195 C 300,215 240,222 200,215 C 185,230 182,236 180,235 C 140,220 105,195 95,165 L 35,195 Z",
     },
-    width: 9,
+    width: 8,
   },
   {
-    id: "head-rostrum",
-    shape: { kind: "path", d: "M 148,72 C 138,64 128,58 118,54" },
-    width: 5,
-  },
-  {
-    id: "antenna-1",
-    shape: {
-      kind: "path",
-      d: "M 145,70 C 110,40 60,35 25,55 C 5,66 10,85 35,80",
-    },
-    width: 2.5,
-  },
-  {
-    id: "antenna-2",
-    shape: { kind: "path", d: "M 152,66 C 145,45 148,22 165,5" },
-    width: 2.5,
+    id: "mouth-line",
+    shape: { kind: "path", d: "M 330,195 L 340,205 M 335,200 L 320,210" },
+    width: 3,
   },
   {
     id: "eye",
-    shape: { kind: "circle", cx: 158, cy: 72, r: 4.5 },
+    shape: { kind: "circle", cx: 325, cy: 130, r: 5 },
     width: 0,
     fill: "currentColor",
   },
   {
-    id: "tail-fan-basic",
-    shape: {
-      kind: "path",
-      d: "M 205,135 L 175,120 M 208,140 L 185,150 M 212,148 L 195,168",
-    },
-    width: 3.5,
-  },
-  // -- the sweet spot (7-10): a little more life, still gesture --
-  {
-    id: "body-segment-1",
-    shape: { kind: "path", d: "M 278,88 Q 288,102 278,114" },
+    id: "pectoral-fin-basic",
+    shape: { kind: "path", d: "M 300,150 C 292,172 278,184 262,180" },
     width: 3,
   },
+  // -- the sweet spot (5-15): a little more life, still gesture --
   {
-    id: "body-segment-2",
-    shape: { kind: "path", d: "M 345,155 Q 358,164 352,180" },
-    width: 3,
-  },
-  {
-    id: "body-segment-3",
-    shape: { kind: "path", d: "M 322,222 Q 332,232 322,244" },
-    width: 3,
-  },
-  {
-    id: "leg-cluster-impression",
-    shape: {
-      kind: "path",
-      d: "M 260,195 L 248,214 M 280,208 L 270,228 M 300,218 L 292,238 M 240,182 L 226,199",
-    },
-    width: 2.5,
-  },
-  // -- over-elaboration (11-16): every part accounted for, the life gone --
-  {
-    id: "antenna-detail-ticks",
-    shape: {
-      kind: "path",
-      d: "M 90,42 L 82,32 M 60,42 L 54,30 M 32,62 L 22,58",
-    },
-    width: 1.5,
-  },
-  {
-    id: "tail-fan-full",
-    shape: {
-      kind: "path",
-      d: "M 205,135 L 170,116 M 207,138 L 178,128 M 210,143 L 183,144 M 212,148 L 191,158 M 213,153 L 197,172 M 213,159 L 202,183",
-    },
-    width: 2.5,
-  },
-  {
-    id: "leg-cluster-full",
-    shape: {
-      kind: "path",
-      d: "M 226,175 L 213,192 M 240,182 L 226,199 M 254,190 L 242,208 M 268,199 L 258,218 M 282,209 L 273,229 M 296,220 L 288,239 M 308,231 L 302,249",
-    },
+    id: "gill-line",
+    shape: { kind: "path", d: "M 300,110 Q 310,150 300,190" },
     width: 2,
   },
   {
-    id: "leg-cluster-extra",
-    shape: {
-      kind: "path",
-      d: "M 218,165 L 206,180 M 232,172 L 220,188 M 320,240 L 314,257",
-    },
+    id: "lateral-line",
+    shape: { kind: "path", d: "M 130,125 Q 200,133 270,128" },
+    width: 2,
+  },
+  {
+    id: "tail-fin-inner-line",
+    shape: { kind: "path", d: "M 75,150 L 55,148" },
+    width: 2,
+  },
+  {
+    id: "second-dorsal-ridge",
+    shape: { kind: "path", d: "M 255,70 L 264,52 L 278,72" },
+    width: 2.5,
+  },
+  {
+    id: "anal-fin",
+    shape: { kind: "path", d: "M 230,205 L 222,225 L 245,208" },
+    width: 2.5,
+  },
+  {
+    id: "pelvic-fin",
+    shape: { kind: "path", d: "M 180,235 L 172,250 L 195,232" },
+    width: 2,
+  },
+  {
+    id: "pectoral-fin-detail",
+    shape: { kind: "path", d: "M 298,158 L 285,178" },
+    width: 2,
+  },
+  {
+    id: "body-segment-belly",
+    shape: { kind: "path", d: "M 110,175 Q 190,200 290,178" },
     width: 1.8,
   },
   {
-    id: "antenna-hairs",
-    shape: {
-      kind: "path",
-      d: "M 40,58 L 47,65 M 60,50 L 65,58 M 90,45 L 96,52 M 118,44 L 122,52",
-    },
+    id: "mouth-detail",
+    shape: { kind: "path", d: "M 335,200 L 348,203" },
     width: 1.2,
   },
   {
-    id: "rostrum-serration",
-    shape: {
-      kind: "path",
-      d: "M 130,60 L 136,55 M 138,64 L 144,60",
-    },
+    id: "gill-cover-line",
+    shape: { kind: "path", d: "M 275,105 Q 282,150 275,185" },
     width: 1.2,
   },
   {
-    id: "body-segment-4",
-    shape: { kind: "path", d: "M 250,68 Q 258,80 250,90" },
-    width: 2.2,
-  },
-  {
-    id: "tail-fin-veins",
+    id: "dorsal-fin-ray-ticks",
     shape: {
       kind: "path",
-      d: "M 190,145 L 178,152 M 198,152 L 188,162 M 204,160 L 195,171",
+      d: "M 216,62 L 220,50 M 226,58 L 230,46 M 236,62 L 240,52",
+    },
+    width: 1.2,
+  },
+  // -- over-elaboration (16-22): every fin ray and scale accounted for --
+  {
+    id: "scale-hatch-row1",
+    shape: {
+      kind: "path",
+      d: "M 150,95 L 160,102 M 175,92 L 185,99 M 200,90 L 210,97",
     },
     width: 1,
   },
   {
-    id: "belly-shading",
+    id: "scale-hatch-row2",
     shape: {
       kind: "path",
-      d: "M 260,235 L 270,242 M 280,242 L 290,249 M 300,246 L 310,253",
+      d: "M 140,140 L 152,144 M 165,138 L 177,142 M 190,137 L 202,141 M 215,138 L 227,142",
     },
-    width: 1.2,
+    width: 1,
+  },
+  {
+    id: "scale-hatch-row3",
+    shape: {
+      kind: "path",
+      d: "M 150,175 L 160,182 M 175,178 L 185,185 M 200,180 L 210,187",
+    },
+    width: 1,
+  },
+  {
+    id: "anal-fin-ray-ticks",
+    shape: { kind: "path", d: "M 226,210 L 220,222 M 236,212 L 232,224" },
+    width: 1,
+  },
+  {
+    id: "tail-fin-ray-ticks",
+    shape: { kind: "path", d: "M 45,125 L 33,112 M 42,168 L 32,180" },
+    width: 1,
   },
   {
     id: "body-outline",
     shape: {
       kind: "path",
-      d: "M 150,75 C 230,55 320,75 375,140 C 410,182 400,225 345,245 C 290,263 235,245 210,205 C 195,180 195,155 205,135",
+      d: "M 75,150 L 30,105 L 95,140 C 130,80 190,40 230,35 C 265,30 275,70 280,100 C 320,115 345,130 365,150 C 345,168 320,180 330,195 C 300,215 240,222 200,215 C 185,230 182,236 180,235 C 140,220 105,195 95,165 L 35,195 Z",
     },
     width: 1.5,
-    offset: { dx: 6, dy: 7 },
-  },
-  {
-    id: "shading-hatch",
-    shape: {
-      kind: "path",
-      d: "M 300,110 L 312,118 M 320,125 L 332,133 M 340,143 L 352,150 M 350,165 L 362,171 M 345,190 L 356,197 M 330,212 L 340,220",
-    },
-    width: 1.2,
+    offset: { dx: 5, dy: 6 },
   },
   {
     id: "eye-detail",
-    shape: { kind: "circle", cx: 159.5, cy: 70.5, r: 1.5 },
+    shape: { kind: "circle", cx: 326.5, cy: 128, r: 1.5 },
     width: 0,
     fill: "#f5efe1",
   },
@@ -208,11 +184,11 @@ export function phaseFor(count: number, total: number = STROKES.length): Phase {
 export function labelFor(phase: Phase): string {
   switch (phase) {
     case "unlike":
-      return "不似 — too few marks. Nothing here has committed to being a shrimp yet.";
+      return "不似 — too few marks. Nothing here has committed to being a fish yet.";
     case "sweet-spot":
       return "妙在似与不似之间 — the marvel, between likeness and unlikeness.";
     case "too-like":
-      return "太似 — every leg accounted for, and the life has gone out of it.";
+      return "太似 — every fin ray and scale accounted for, and the life has gone out of it.";
   }
 }
 

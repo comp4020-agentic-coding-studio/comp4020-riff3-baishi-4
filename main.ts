@@ -61,7 +61,7 @@ if (
 
   const describeMarks = (): string => {
     const parts: string[] = [];
-    if (marks.became !== null) parts.push(`became a shrimp at ${marks.became}`);
+    if (marks.became !== null) parts.push(`became a fish at ${marks.became}`);
     if (marks.stiffened !== null) parts.push(`went stiff at ${marks.stiffened}`);
     return parts.length === 0 ? "Nothing marked yet." : `You said: ${parts.join("; ")}.`;
   };
@@ -87,7 +87,7 @@ if (
         } strokes where you'd have called it alive. ${
           labelFor(phaseFor(marks.became as number))
         }`
-        : "You never gave it a sweet spot: by your reading it stiffened before it ever read as a shrimp. This page has no way to be right about that, and it was built assuming nobody would say it.";
+        : "You never gave it a sweet spot: by your reading it stiffened before it ever read as a fish. This page has no way to be right about that, and it was built assuming nobody would say it.";
     }
     verdict.hidden = false;
     resetButton.hidden = false;
