@@ -121,6 +121,51 @@ export const STROKES: Stroke[] = [
     width: 2,
   },
   {
+    id: "leg-cluster-extra",
+    shape: {
+      kind: "path",
+      d: "M 218,165 L 206,180 M 232,172 L 220,188 M 320,240 L 314,257",
+    },
+    width: 1.8,
+  },
+  {
+    id: "antenna-hairs",
+    shape: {
+      kind: "path",
+      d: "M 40,58 L 47,65 M 60,50 L 65,58 M 90,45 L 96,52 M 118,44 L 122,52",
+    },
+    width: 1.2,
+  },
+  {
+    id: "rostrum-serration",
+    shape: {
+      kind: "path",
+      d: "M 130,60 L 136,55 M 138,64 L 144,60",
+    },
+    width: 1.2,
+  },
+  {
+    id: "body-segment-4",
+    shape: { kind: "path", d: "M 250,68 Q 258,80 250,90" },
+    width: 2.2,
+  },
+  {
+    id: "tail-fin-veins",
+    shape: {
+      kind: "path",
+      d: "M 190,145 L 178,152 M 198,152 L 188,162 M 204,160 L 195,171",
+    },
+    width: 1,
+  },
+  {
+    id: "belly-shading",
+    shape: {
+      kind: "path",
+      d: "M 260,235 L 270,242 M 280,242 L 290,249 M 300,246 L 310,253",
+    },
+    width: 1.2,
+  },
+  {
     id: "body-outline",
     shape: {
       kind: "path",
@@ -148,10 +193,10 @@ export const STROKES: Stroke[] = [
 export type Phase = "unlike" | "sweet-spot" | "too-like";
 
 // Below this many strokes, nothing on the canvas commits to being a shrimp.
-export const UNLIKE_MAX = 3;
+export const UNLIKE_MAX = 4;
 // Through this many, it reads as a shrimp without over-explaining itself.
 // Above it, every part has been individually accounted for.
-export const SWEET_SPOT_MAX = 10;
+export const SWEET_SPOT_MAX = 15;
 
 export function phaseFor(count: number, total: number = STROKES.length): Phase {
   const clamped = Math.max(0, Math.min(count, total));
