@@ -36,7 +36,8 @@
             id="shrimp-canvas"
             viewBox="0 0 420 270"
             role="img"
-            aria-label="An ink drawing of a fish, built up stroke by stroke as the slider moves."
+            aria-label="An ink drawing of a fish, built up stroke by stroke as the slider moves. You can also draw your own strokes directly on it."
+            data-testid="paint-surface"
           ></svg>
           <figcaption class="controls">
             <label for="stroke-slider">Strokes revealed</label>
@@ -55,6 +56,19 @@
             <p id="marks-readout" data-testid="marks-readout" aria-live="polite">
               Nothing marked yet.
             </p>
+            <p class="paint-hint">
+              Or draw your own, right on the canvas above — your marks aren't
+              counted by the slider, and don't affect the phase reading.
+            </p>
+            <button
+              type="button"
+              id="clear-drawing"
+              class="reset"
+              data-testid="clear-drawing"
+              hidden
+            >
+              Clear your drawing
+            </button>
           </figcaption>
         </figure>
         <div id="marking" class="marking">

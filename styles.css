@@ -85,6 +85,15 @@ figure {
   border: 1px solid #ddd3bd;
   border-radius: 0.25rem;
   color: var(--ink);
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.paint-hint {
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  font-style: italic;
+  margin: 0.75rem 0 0;
 }
 
 .controls {

@@ -21,6 +21,7 @@ const verdict = document.querySelector<HTMLElement>("#verdict");
 const becameButton = document.querySelector<HTMLButtonElement>("#mark-became");
 const stiffenedButton = document.querySelector<HTMLButtonElement>("#mark-stiffened");
 const resetButton = document.querySelector<HTMLButtonElement>("#mark-reset");
+const clearDrawingButton = document.querySelector<HTMLButtonElement>("#clear-drawing");
 
 const cell = (name: string) =>
   document.querySelector<HTMLElement>(`[data-testid="${name}"]`);
@@ -125,4 +126,62 @@ if (
 
   render(Number(slider.value));
   marksReadout.textContent = describeMarks();
+
+  // Freehand painting, layered over the slider-driven strokes. Points are
+  // mapped from screen space into the SVG's own viewBox coordinates via its
+  // CTM, so drawing stays under the pointer regardless of how the canvas is
+  // scaled on the page.
+  const toPoint = (event: PointerEvent): { x: number; y: number } | null => {
+    const ctm = canvas.getScreenCTM();
+    if (!ctm) return null;
+    const point = canvas.createSVGPoint();
+    point.x = event.clientX;
+    point.y = event.clientY;
+    const local = point.matrixTransform(ctm.inverse());
+    return { x: local.x, y: local.y };
+  };
+
+  let userStrokeCount = 0;
+  let activePath: SVGPathElement | null = null;
+
+  const updateClearButton = () => {
+    if (clearDrawingButton) clearDrawingButton.hidden = userStrokeCount === 0;
+  };
+
+  canvas.addEventListener("pointerdown", (event) => {
+    const p = toPoint(event);
+    if (!p) return;
+    canvas.setPointerCapture(event.pointerId);
+    activePath = document.createElementNS(SVG_NS, "path");
+    activePath.setAttribute("d", `M ${p.x},${p.y}`);
+    activePath.setAttribute("fill", "none");
+    activePath.setAttribute("stroke", "currentColor");
+    activePath.setAttribute("stroke-width", "3");
+    activePath.setAttribute("stroke-linecap", "round");
+    activePath.setAttribute("stroke-linejoin", "round");
+    activePath.classList.add("user-ink");
+    canvas.appendChild(activePath);
+    userStrokeCount += 1;
+    updateClearButton();
+  });
+
+  canvas.addEventListener("pointermove", (event) => {
+    if (!activePath) return;
+    const p = toPoint(event);
+    if (!p) return;
+    activePath.setAttribute("d", `${activePath.getAttribute("d")} L ${p.x},${p.y}`);
+  });
+
+  const endStroke = () => {
+    activePath = null;
+  };
+  canvas.addEventListener("pointerup", endStroke);
+  canvas.addEventListener("pointercancel", endStroke);
+  canvas.addEventListener("pointerleave", endStroke);
+
+  clearDrawingButton?.addEventListener("click", () => {
+    canvas.querySelectorAll(".user-ink").forEach((path) => path.remove());
+    userStrokeCount = 0;
+    updateClearButton();
+  });
 }
